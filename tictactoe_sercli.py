@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-import random, socket, argparse, pickle
+import random, socket, argparse, pickle, os
 
 MAX_BYTES = 65535
 
@@ -152,11 +152,13 @@ def server(port):
         print('The ' + turn + ' will go first.')
         gameIsPlaying = True
         sock.bind(("127.0.0.1", 1060))
-        
+        print('You will be X.')
+        drawBoard(theBoard)
+
         while gameIsPlaying:
             if turn == 'player':
                 # Player's turn.
-                drawBoard(theBoard)
+                #drawBoard(theBoard)
                 move = getPlayerMove(theBoard)
                 makeMove(theBoard, playerLetter, move)
 
@@ -172,6 +174,9 @@ def server(port):
                     else:
                         sock.connect(("127.0.0.1", 1061))
                         msg = pickle.dumps(move)
+                        os.system('clear')
+                        drawBoard(theBoard)
+                        print('Waiting for the other guy movement.')
                         sock.sendto(msg, ('127.0.0.1', 1061))
                         turn = 'computer'
 
@@ -182,6 +187,8 @@ def server(port):
 #                move = getComputerMove(theBoard, computerLetter)
 #                makeMove(theBoard, computerLetter, move)
                 makeMove(theBoard, 'O' , move)
+                os.system('clear')
+                drawBoard(theBoard)
                 
                 if isWinner(theBoard, computerLetter):
                     drawBoard(theBoard)
@@ -209,11 +216,13 @@ def client(port):
         print('The ' + turn + ' will go first.')
         gameIsPlaying = True
         sock.bind(("127.0.0.1", 1061))
+        print('You will be O.')
+        drawBoard(theBoard)
 
         while gameIsPlaying:
             if turn == 'player':
                 # Player's turn.
-                drawBoard(theBoard)
+                #drawBoard(theBoard)
                 move = getPlayerMove(theBoard)
                 makeMove(theBoard, playerLetter, move)
 
@@ -229,6 +238,9 @@ def client(port):
                     else:
                         sock.connect(("127.0.0.1", 1060))
                         msg = pickle.dumps(move)
+                        os.system('clear')
+                        drawBoard(theBoard)
+                        print('Waiting for the other guy movement.')
                         sock.sendto(msg, ('127.0.0.1', 1060))
                         turn = 'computer'
 
@@ -239,7 +251,9 @@ def client(port):
 #                move = getComputerMove(theBoard, computerLetter)
 #                makeMove(theBoard, computerLetter, move)
                 makeMove(theBoard, 'X' , move)
-
+                os.system('clear')
+                drawBoard(theBoard)
+                
                 if isWinner(theBoard, computerLetter):
                     drawBoard(theBoard)
                     print('The computer has beaten you! You lose.')
