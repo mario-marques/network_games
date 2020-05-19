@@ -212,7 +212,7 @@ def client(port):
         # Reset the board
         theBoard = [' '] * 10
         playerLetter, computerLetter = inputPlayerLetter()
-        turn = 'player'
+        turn = 'computer'
         print('The ' + turn + ' will go first.')
         gameIsPlaying = True
         sock.bind(("127.0.0.1", 1061))
